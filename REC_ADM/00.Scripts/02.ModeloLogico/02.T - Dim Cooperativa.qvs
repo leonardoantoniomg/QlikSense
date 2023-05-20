@@ -1,0 +1,12 @@
+LIB CONNECT TO 'DirModeloFisico_Extract';
+LIB CONNECT TO 'DirModeloLogico_Transform';
+
+DimCooperativa:
+NoConcatenate
+
+LOAD SK_Cooperativa AS %SK_Cooperativa
+     ,Cooperativa
+FROM [lib://DirModeloFisico_Extract/DimCooperativa.qvd](QVD);
+STORE DimCooperativa INTO [lib://DirModeloLogico_Transform/DimCooperativa.qvd](QVD);
+
+DROP TABLE DimCooperativa;

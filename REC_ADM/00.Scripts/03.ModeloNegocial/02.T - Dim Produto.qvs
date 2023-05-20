@@ -1,0 +1,43 @@
+LIB CONNECT TO 'DirModeloLogico_Transform';
+LIB CONNECT TO 'DirModeloNegocial_Transform';
+
+
+
+DimProduto_01:
+
+LOAD %SK_Produto
+     ,Produto AS %Produto
+FROM [lib://DirModeloLogico_Transform/DimProduto.qvd](QVD);
+
+
+INNER JOIN (DimProduto_01)
+/*
+LOAD * INLINE [
+%Produto, Nome
+'DAV', 'Depósito a Vista'
+'DAP', 'Depósito a Prazo'
+'RDC', 'Recibo de Depósito Cooperativo'
+'LCA', 'Letra de Crédito do Agronegócio'
+'POP', 'Poupança'
+];
+*/
+LOAD * INLINE [
+%Produto, Nome
+'DAV', 'Depósito a Vista'
+'DAP', 'Depósito a Prazo'
+'POP', 'Poupança'
+];
+
+
+DimProduto_02:
+LOAD %SK_Produto
+     ,%Produto AS Produto
+     ,Nome AS NomeProduto
+RESIDENT DimProduto_01;
+
+
+
+STORE DimProduto_02 INTO [lib://DirModeloNegocial_Transform/DimProduto.qvd](QVD);
+DROP TABLE DimProduto_01;
+DROP TABLE DimProduto_02;
+

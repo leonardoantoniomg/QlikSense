@@ -1,0 +1,19 @@
+LIB CONNECT TO 'DirModeloFisico_Extract';
+
+DimTempo_01:
+NoConcatenate
+
+LOAD DISTINCT
+     Data
+FROM [lib://DirModeloFisico_Extract/RecAdm.qvd](QVD);
+
+DimTempo_02:
+NoConcatenate
+
+LOAD AutoNumber(Data) AS SK_Tempo
+     ,Data
+RESIDENT DimTempo_01;
+
+STORE DimTempo_02 INTO [lib://DirModeloFisico_Extract/DimTempo.qvd](QVD);
+DROP TABLE DimTempo_01;
+DROP TABLE DimTempo_02;

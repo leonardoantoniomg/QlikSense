@@ -1,0 +1,18 @@
+LIB CONNECT TO 'DirModeloFisico_Extract';
+
+RecAdm:
+NoConcatenate
+
+LOAD Date(Date#(Data,'YYYY-MM-DD'),'DD/MM/YYYY') AS Data
+     ,Num(Cooperativa) AS Cooperativa
+     ,Num(Agencia) As Agencia
+     ,Produto
+     ,Categoria
+     ,Saldo
+     ,SaldoAtualizado        
+FROM [lib://DirModeloFisico_Extract/DataSetRecAdm.qvd](QVD);
+
+DROP FIELD Saldo;
+
+STORE RecAdm INTO [lib://DirModeloFisico_Extract/RecAdm.qvd](QVD);
+DROP TABLE RecAdm;

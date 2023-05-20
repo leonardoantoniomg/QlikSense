@@ -1,0 +1,16 @@
+LIB CONNECT TO 'DirModeloFisico_Extract';
+LIB CONNECT TO 'DirModeloLogico_Transform';
+
+FatRecAdm:
+NoConcatenate
+
+LOAD SK_Tempo AS %SK_Tempo
+     ,SK_Cooperativa AS %SK_Cooperativa 
+     ,SK_Agencia AS %SK_Agencia
+     ,SK_Produto AS %SK_Produto 
+     ,SK_Categoria AS %SK_Categoria
+     ,SaldoMes
+FROM [lib://DirModeloFisico_Extract/FatRecAdm.qvd](QVD);
+STORE FatRecAdm INTO [lib://DirModeloLogico_Transform/FatRecAdm.qvd](QVD);
+
+DROP TABLE FatRecAdm;

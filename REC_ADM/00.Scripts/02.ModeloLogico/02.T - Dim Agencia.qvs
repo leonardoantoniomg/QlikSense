@@ -1,0 +1,13 @@
+LIB CONNECT TO 'DirModeloFisico_Extract';
+LIB CONNECT TO 'DirModeloLogico_Transform';
+
+DimAgencia:
+NoConcatenate
+
+LOAD SK_Agencia AS %SK_Agencia
+     ,Cooperativa
+     ,Agencia
+FROM [lib://DirModeloFisico_Extract/DimAgencia.qvd](QVD);
+STORE DimAgencia INTO [lib://DirModeloLogico_Transform/DimAgencia.qvd](QVD);
+
+DROP TABLE DimAgencia;

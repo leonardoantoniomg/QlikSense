@@ -1,0 +1,14 @@
+LIB CONNECT TO 'DirModeloFisico_Extract';
+LIB CONNECT TO 'DirModeloLogico_Transform';
+
+DimTempo:
+NoConcatenate
+
+LOAD SK_Tempo AS %SK_Tempo
+     ,Data
+     ,Month(Data) AS Mes
+     ,Year(Data) AS Ano
+FROM [lib://DirModeloFisico_Extract/DimTempo.qvd](QVD);
+STORE DimTempo INTO [lib://DirModeloLogico_Transform/DimTempo.qvd](QVD);
+
+DROP TABLE DimTempo;

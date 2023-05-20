@@ -1,0 +1,19 @@
+LIB CONNECT TO 'DirModeloFisico_DS';
+LIB CONNECT TO 'DirModeloFisico_Extract';
+
+
+DataSetRecAdm:
+NoConcatenate
+
+LOAD Data
+     ,Cooperativa
+     ,Agencia
+     ,Produto
+     ,Categoria
+     ,Saldo
+     ,SaldoAtualizado
+FROM [lib://DirModeloFisico_DS/DadosExTeste.csv](TXT, CODEPAGE IS 1252, EMBEDDED LABELS, DELIMITER IS ';', MSQ);
+
+STORE DataSetRecAdm INTO [lib://DirModeloFisico_Extract/DataSetRecAdm.qvd](QVD);
+DROP TABLE DataSetRecAdm;
+

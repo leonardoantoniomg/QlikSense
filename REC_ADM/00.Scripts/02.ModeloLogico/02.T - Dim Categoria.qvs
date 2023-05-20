@@ -1,0 +1,13 @@
+LIB CONNECT TO 'DirModeloFisico_Extract';
+LIB CONNECT TO 'DirModeloLogico_Transform';
+
+DimCategoria:
+NoConcatenate
+
+LOAD SK_Categoria AS %SK_Categoria
+     ,Produto
+     ,Categoria
+FROM [lib://DirModeloFisico_Extract/DimCategoria.qvd](QVD);
+STORE DimCategoria INTO [lib://DirModeloLogico_Transform/DimCategoria.qvd](QVD);
+
+DROP TABLE DimCategoria;

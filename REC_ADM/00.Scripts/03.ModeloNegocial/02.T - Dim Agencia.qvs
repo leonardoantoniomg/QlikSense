@@ -1,0 +1,40 @@
+LIB CONNECT TO 'DirModeloLogico_Transform';
+LIB CONNECT TO 'DirModeloNegocial_Transform';
+
+
+
+DimAgencia_01:
+
+LOAD %SK_Agencia
+     ,Cooperativa AS %Cooperativa
+     ,Agencia  AS %Agencia
+FROM [lib://DirModeloLogico_Transform/DimAgencia.qvd](QVD);
+
+
+INNER JOIN (DimAgencia_01)
+
+LOAD * INLINE [
+%Cooperativa, %Agencia, Nome, UF, Pais
+5665, 1, 'Ag. Ex 01', 'PR', 'Brasil' 
+5665, 2, 'Ag. Ex 02', 'SP', 'Brasil'
+5665, 3, 'Ag. Ex 03', 'MS', 'Brasil'
+5665, 4, 'Ag. Ex 04', 'MT', 'Brasil'
+5665, 5, 'Ag. Ex 05', 'GO', 'Brasil'
+];
+
+
+DimAgencia_02:
+LOAD %SK_Agencia AS [%SK_Agencia]
+     ,%Cooperativa AS AgenciaCooperativa
+     ,%Agencia AS Agencia
+     ,Nome AS NomeAgencia
+     ,UF
+     ,Pais
+RESIDENT DimAgencia_01;
+
+
+
+STORE DimAgencia_02 INTO [lib://DirModeloNegocial_Transform/DimAgencia.qvd](QVD);
+DROP TABLE DimAgencia_01;
+DROP TABLE DimAgencia_02;
+

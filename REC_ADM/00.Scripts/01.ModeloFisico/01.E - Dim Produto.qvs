@@ -1,0 +1,19 @@
+LIB CONNECT TO 'DirModeloFisico_Extract';
+
+DimProduto_01:
+NoConcatenate
+
+LOAD DISTINCT
+     Produto
+FROM [lib://DirModeloFisico_Extract/RecAdm.qvd](QVD);
+
+DimProduto_02:
+NoConcatenate
+
+LOAD AutoNumber(Produto) AS SK_Produto
+     ,Produto
+RESIDENT DimProduto_01;
+
+STORE DimProduto_02 INTO [lib://DirModeloFisico_Extract/DimProduto.qvd](QVD);
+DROP TABLE DimProduto_01;
+DROP TABLE DimProduto_02;

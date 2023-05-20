@@ -1,0 +1,15 @@
+LIB CONNECT TO 'DirModeloLogico_Transform';
+LIB CONNECT TO 'DirModeloNegocial_Transform';
+
+
+
+DimCooperativa:
+NoConcatenate
+
+LOAD %SK_Cooperativa
+     ,Cooperativa
+     ,'Coop - Modelo' AS NomeCooperativa
+FROM [lib://DirModeloLogico_Transform/DimCooperativa.qvd](QVD);
+STORE DimCooperativa INTO [lib://DirModeloNegocial_Transform/DimCooperativa.qvd](QVD);
+
+DROP TABLE DimCooperativa;

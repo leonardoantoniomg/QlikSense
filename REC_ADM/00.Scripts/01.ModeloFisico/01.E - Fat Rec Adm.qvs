@@ -1,0 +1,53 @@
+LIB CONNECT TO 'DirModeloFisico_Extract';
+
+FatRecAdm_01:
+
+LOAD Data AS %Data
+     ,Cooperativa AS %Cooperativa
+     ,Agencia AS %Agencia
+     ,Produto AS %Produto
+     ,Categoria AS %Categoria
+     ,SaldoAtualizado        
+FROM [lib://DirModeloFisico_Extract/RecAdm.qvd](QVD);
+
+INNER JOIN (FatRecAdm_01)
+LOAD SK_Tempo
+     ,Data AS %Data
+FROM [lib://DirModeloFisico_Extract/DimTempo.qvd](QVD);
+
+INNER JOIN (FatRecAdm_01)
+LOAD SK_Cooperativa
+     ,Cooperativa AS %Cooperativa
+FROM [lib://DirModeloFisico_Extract/DimCooperativa.qvd](QVD);
+
+INNER JOIN (FatRecAdm_01)
+LOAD SK_Agencia
+     ,Cooperativa AS %Cooperativa
+     ,Agencia AS %Agencia
+FROM [lib://DirModeloFisico_Extract/DimAgencia.qvd](QVD);
+
+INNER JOIN (FatRecAdm_01)
+LOAD SK_Produto
+     ,Produto AS %Produto
+FROM [lib://DirModeloFisico_Extract/DimProduto.qvd](QVD);
+
+INNER JOIN (FatRecAdm_01)
+LOAD SK_Categoria
+     ,Produto AS %Produto
+     ,Categoria AS %Categoria
+FROM [lib://DirModeloFisico_Extract/DimCategoria.qvd](QVD);
+
+FatRecAdm_02:
+NoConcatenate
+
+LOAD SK_Tempo 
+     ,SK_Cooperativa 
+     ,SK_Agencia 
+     ,SK_Produto
+     ,SK_Categoria 
+     ,SaldoAtualizado AS SaldoMes
+RESIDENT FatRecAdm_01;
+
+STORE FatRecAdm_02 INTO [lib://DirModeloFisico_Extract/FatRecAdm.qvd](QVD);
+DROP TABLE FatRecAdm_01;
+DROP TABLE FatRecAdm_02;

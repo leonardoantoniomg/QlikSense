@@ -1,0 +1,60 @@
+LIB CONNECT TO 'DirModeloNegocial_Transform';
+
+
+FatRecursosAdministrados:
+
+LOAD %SK_Tempo
+     ,%SK_Cooperativa 
+     ,%SK_Agencia
+     ,%SK_Produto 
+     ,%SK_Categoria
+     ,SaldoMes
+FROM [lib://DirModeloNegocial_Transform/FatRecAdm.qvd](QVD);
+
+DimTempo:
+INNER KEEP(FatRecursosAdministrados)
+
+LOAD %SK_Tempo
+     ,Data
+     ,Mes
+     ,Ano
+     ,MesAno
+FROM [lib://DirModeloNegocial_Transform/DimTempo.qvd](QVD);
+
+DimCooperativa:
+INNER KEEP(FatRecursosAdministrados)
+
+LOAD %SK_Cooperativa
+     ,Cooperativa
+     ,NomeCooperativa
+FROM [lib://DirModeloNegocial_Transform/DimCooperativa.qvd](QVD);
+
+DimAgencia:
+INNER KEEP(FatRecursosAdministrados)
+
+LOAD %SK_Agencia
+     ,AgenciaCooperativa
+     ,Agencia
+     ,NomeAgencia
+     ,UF
+     ,Pais
+FROM [lib://DirModeloNegocial_Transform/DimAgencia.qvd](QVD);
+
+DimProduto:
+INNER KEEP(FatRecursosAdministrados)
+
+LOAD %SK_Produto
+     ,Produto
+     ,NomeProduto
+FROM [lib://DirModeloNegocial_Transform/DimProduto.qvd](QVD);
+
+
+DimCategoria:
+INNER KEEP(FatRecursosAdministrados)
+
+LOAD %SK_Categoria
+     ,CategoriaProduto
+     ,Categoria
+     ,NomeCategoria
+FROM [lib://DirModeloNegocial_Transform/DimCategoria.qvd](QVD);
+

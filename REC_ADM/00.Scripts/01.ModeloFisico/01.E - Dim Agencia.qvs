@@ -1,0 +1,21 @@
+LIB CONNECT TO 'DirModeloFisico_Extract';
+
+DimAgencia_01:
+NoConcatenate
+
+LOAD DISTINCT
+     Cooperativa
+     ,Agencia
+FROM [lib://DirModeloFisico_Extract/RecAdm.qvd](QVD);
+
+DimAgencia_02:
+NoConcatenate
+
+LOAD AutoNumber(Cooperativa & Agencia) AS SK_Agencia
+     ,Cooperativa
+     ,Agencia
+RESIDENT DimAgencia_01;
+
+STORE DimAgencia_02 INTO [lib://DirModeloFisico_Extract/DimAgencia.qvd](QVD);
+DROP TABLE DimAgencia_01;
+DROP TABLE DimAgencia_02;
