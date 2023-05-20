@@ -2,7 +2,7 @@ LIB CONNECT TO 'DirModeloLogico_Transform';
 LIB CONNECT TO 'DirModeloNegocial_Transform';
 
 
-FatRecAdm:
+FatRecAdm_01:
 NoConcatenate
 
 LOAD %SK_Tempo
@@ -13,6 +13,20 @@ LOAD %SK_Tempo
      ,SaldoMes
 FROM [lib://DirModeloLogico_Transform/FatRecAdm.qvd](QVD);
 
+INNER JOIN (FatRecAdm_01)
+LOAD %SK_Tempo
+     ,Data
+FROM [lib://DirModeloNegocial_Transform/DimTempo.qvd](QVD);
 
-STORE FatRecAdm INTO [lib://DirModeloNegocial_Transform/FatRecAdm.qvd](QVD);
-DROP TABLE FatRecAdm;
+FatRecAdm_02:
+LOAD %SK_Tempo
+     ,%SK_Cooperativa 
+     ,%SK_Agencia
+     ,%SK_Produto 
+     ,%SK_Categoria
+     ,SaldoMes
+RESIDENT FatRecAdm_01
+WHERE Data >= '$(vDataPrimeiroMovimento)';
+
+STORE FatRecAdm_02 INTO [lib://DirModeloNegocial_Transform/FatRecAdm.qvd](QVD);
+DROP TABLE FatRecAdm_01, FatRecAdm_02;
