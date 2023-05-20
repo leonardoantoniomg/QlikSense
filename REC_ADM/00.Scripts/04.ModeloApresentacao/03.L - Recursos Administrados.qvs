@@ -27,6 +27,7 @@ INNER KEEP(FatRecursosAdministrados)
 LOAD %SK_Cooperativa
      ,Cooperativa
      ,NomeCooperativa
+     ,Coop
 FROM [lib://DirModeloNegocial_Transform/DimCooperativa.qvd](QVD);
 
 DimAgencia:
@@ -35,6 +36,7 @@ INNER KEEP(FatRecursosAdministrados)
 LOAD %SK_Agencia
      ,AgenciaCooperativa
      ,Agencia
+     ,Agn
      ,NomeAgencia
      ,UF
      ,Pais

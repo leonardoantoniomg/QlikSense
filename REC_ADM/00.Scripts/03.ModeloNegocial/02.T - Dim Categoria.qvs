@@ -3,13 +3,35 @@ LIB CONNECT TO 'DirModeloNegocial_Transform';
 
 
 
-DimCooperativa:
-NoConcatenate
+DimCategoria_01:
 
-LOAD %SK_Cooperativa
-     ,Cooperativa
-     ,'Coop - Modelo' AS NomeCooperativa
-FROM [lib://DirModeloLogico_Transform/DimCooperativa.qvd](QVD);
-STORE DimCooperativa INTO [lib://DirModeloNegocial_Transform/DimCooperativa.qvd](QVD);
+LOAD %SK_Categoria
+     ,Produto AS %Produto
+     ,Categoria AS %Categoria
+FROM [lib://DirModeloLogico_Transform/DimCategoria.qvd](QVD);
 
-DROP TABLE DimCooperativa;
+
+INNER JOIN (DimCategoria_01)
+
+LOAD * INLINE [
+%Categoria, %Produto, Nome
+'RDC', 'DAP', 'Recibo de Depósito Cooperativo'
+'LCA', 'DAP', 'Letra de Crédito do Agronegócio'
+'CCO', 'DAV', 'Conta Corrente'
+'POP', 'POP', 'Poupança'
+];
+
+
+DimCategoria_02:
+LOAD %SK_Categoria
+     ,%Categoria AS Categoria
+     ,%Produto AS CategoriaProduto
+     ,Nome AS NomeCategoria
+RESIDENT DimCategoria_01;
+
+
+
+STORE DimCategoria_02 INTO [lib://DirModeloNegocial_Transform/DimCategoria.qvd](QVD);
+DROP TABLE DimCategoria_01;
+DROP TABLE DimCategoria_02;
+

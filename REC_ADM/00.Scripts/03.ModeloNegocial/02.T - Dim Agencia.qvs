@@ -28,6 +28,7 @@ LOAD %SK_Agencia AS [%SK_Agencia]
      ,%Cooperativa AS AgenciaCooperativa
      ,%Agencia AS Agencia
      ,Nome AS NomeAgencia
+     ,%Agencia & ' - ' & Nome AS Agn
      ,UF
      ,Pais
 RESIDENT DimAgencia_01;
